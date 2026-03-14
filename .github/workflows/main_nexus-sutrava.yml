@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # ✅ Fixes Node.js 20 deprecation warning
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -19,9 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: List directory structure            # ✅ Add this to debug the exact folder name
-        run: ls -la ${{ github.workspace }}
-
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
@@ -30,14 +27,14 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
-        working-directory: ${{ github.workspace }}/BackEnd   # ✅ Absolute path instead of relative
+        working-directory: ${{ github.workspace }}/Phase-2/BackEnd   # ✅ Correct path
         run: mvn clean package -DskipTests
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: ${{ github.workspace }}/BackEnd/target/BackEnd-0.0.1-SNAPSHOT.jar
+          path: ${{ github.workspace }}/Phase-2/BackEnd/target/BackEnd-0.0.1-SNAPSHOT.jar  # ✅ Correct path
 
   deploy:
     runs-on: ubuntu-latest
